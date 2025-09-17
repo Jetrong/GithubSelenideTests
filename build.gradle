@@ -1,0 +1,63 @@
+plugins {
+    id 'java'
+}
+
+group   = 'com.example'
+version = '1.0-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)   // Java 17+
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    /*
+     * Core тест-фреймворк
+     */
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'      // API + Engine
+
+    /*
+     * UI-автотесты
+     */
+    testImplementation 'com.codeborne:selenide:7.2.3'
+    testImplementation 'io.github.bonigarcia:webdrivermanager:6.2.0'
+
+    /*
+     * (Опц.) slf4j-реализация, чтобы не было WARNING в консоли
+     */
+    testRuntimeOnly 'ch.qos.logback:logback-classic:1.4.11'
+}
+
+/*
+ * Настройка задачи test
+ */
+test {
+    useJUnitPlatform()          // включаем JUnit 5
+    maxParallelForks = 3        // параллельные потоки (по желанию)
+    forkEvery = 50              // перезапуск JVM каждые 50 классов
+    reports {
+        html.required = true    // HTML-отчёт
+        junitXml.required = true// XML для CI
+    }
+    /*
+     * Системные проперти, доступные в тестах:
+     * System.getProperty("browser") и т.д.
+     */
+    systemProperty 'browser', System.getProperty('browser', 'chrome')
+    systemProperty 'env',     System.getProperty('env', 'local')
+}
+
+/*
+ * Утилитный таск «прогнать всё и собрать отчёт»
+ */
+task runTests(type: Test) {
+    description = 'Запуск всех автотестов'
+    group       = 'verification'
+    // переиспользует настройки секции test{}
+}
