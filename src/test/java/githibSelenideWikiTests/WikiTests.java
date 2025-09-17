@@ -25,7 +25,6 @@ public class WikiTests {
         $("#wiki-tab").click();
         $$("ul a.internal.present").shouldHave(CollectionCondition.itemWithText("Soft assertions"));
         $(withText("Soft assertions")).click();
-        Configuration.timeout = 5000;
         $("#wiki-body").shouldHave(text("JUnit5 extension"));
     }
 }
