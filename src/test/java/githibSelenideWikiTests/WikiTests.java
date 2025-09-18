@@ -12,12 +12,12 @@ import static com.codeborne.selenide.Selenide.*;
 
 
 public class WikiTests {
-    @BeforeAll
-    static void beforeAll(){
-        Configuration.browserSize = "1920x1080";   // нужный размер
-        // или
-        // Configuration.startMaximized = true;     // работает только в 6.x и ниже
-    }
+        @BeforeAll
+        static void beforeAll(){
+            Configuration.browserSize = "1920x1080";   // нужный размер
+            // или
+            // Configuration.startMaximized = true;     // работает только в 6.x и ниже
+        }
 
     @Test
     public void wikiTest(){
